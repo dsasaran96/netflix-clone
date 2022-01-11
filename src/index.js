@@ -4,7 +4,7 @@ import App from './app';
 import 'normalize.css';
 import { GlobalStyles } from './global-styles';
 
-render(<>
+render(<> 
         <GlobalStyles />
         <App />
        </>, 
