@@ -111,7 +111,8 @@ export const TextLink = styled.p`
     font-weight: ${({ active }) => (active === 'true' ? '700' : 'normal')};
 
     &:hover {
-        font-weight: bold;
+        text-decoration: underline;
+        cursor: pointer;
     }
 
     &:last-of-type {
