@@ -62,6 +62,9 @@ export const Close = styled.button`
 `
 
 export const Button = styled.button`
+    position: absolute;
+    left: 57px;
+    bottom: 3px;
     background-color: #e50914;
     border-color: #ff0a10;
     width: 114px;

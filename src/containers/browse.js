@@ -79,12 +79,15 @@ export function BrowseContainer({ slides }) {
                     <Card key={`${category}-${slideItem.title.toLowerCase()}`}>
                         <Card.Title>{slideItem.title}</Card.Title>
                         <Card.Entities>
-                            {slideItem.data.map((item) => (
-                                <Card.Item key={item.docId} item={item}>
-                                    <Card.Image src={`/images/${category}/${item.genre}/${item.slug}/small.jpg`} />
+                            {slideItem.data.map((item, i) => (
+                                <Card.Item key={`${item.id}-${i}`} item={item}>
+                                    <Card.Image src={`https://image.tmdb.org/t/p/w300/${item.backdrop_path}`} />
                                     <Card.Meta>
                                         <Card.SubTitle>{item.title}</Card.SubTitle>
-                                        <Card.Text>{item.description}</Card.Text>
+                                        {
+                                            item.overview.length > 150 ? <Card.Text>{item.overview.slice(0, 150).concat('...')}</Card.Text> 
+                                            : <Card.Text>{item.overview}</Card.Text>
+                                        }
                                     </Card.Meta>
                                 </Card.Item>
                             ))}

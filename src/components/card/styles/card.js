@@ -74,12 +74,23 @@ export const Feature = styled.div`
     display: flex;
     flex-direction: row;
     background: url(${({ src }) => src});
-    background-size: contain;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     position: relative;
     height: 360px;
-    background-position-x: right;
-    background-repeat: no-repeat;
     background-color: black;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: linear-gradient(to bottom right, #000000, #00000000);
+        opacity: 1;
+    }
 
     @media (max-width: 1000px) {
         height: auto;
@@ -163,7 +174,7 @@ export const Item = styled.div`
         z-index: 99;
     }
 
-    @media (min-width: 1200px) {
+    @media (min-width: 700px) {
         &:hover ${Meta}, &:hover ${Text}, &:hover ${SubTitle} {
             display: block;
             z-index: 100;
