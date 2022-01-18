@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
-import { Container, Group, Title, SubTitle, Text, Feature, FeatureTitle, FeatureText, FeatureClose, Maturity, Content, Item, Image, Meta, Entities } from './styles/card'
+import React, { createContext, useContext, useState, useRef } from "react";
+import { Container, Group, Title, SubTitle, Text, Feature, FeatureTitle, FeatureText, FeatureClose, ScrollButton, Content, Item, Image, Meta, Entities, ButtonContainer, EntitiesContainer } from './styles/card'
 
 export const FeatureContext = createContext()
 
@@ -35,7 +35,28 @@ Card.Meta = function CardMeta({ children, ...restProps }) {
 }
 
 Card.Entities = function CardEntities({ children, ...restProps }) {
-    return <Entities {...restProps}>{children}</Entities>
+    const [posX, setPosX] = useState(0)
+    const width = useRef(null)
+
+    const handleSlide = (direction) => {
+        if(direction === 'left' && posX !== 0) {
+            const newPos = posX + 306;
+            setPosX(newPos)
+        } else if (direction === 'right' && ((posX * (-1)) <= (width.current.offsetWidth - 306*6))) {
+            const newPos = posX - 306;
+            setPosX(newPos)
+        }
+    }
+
+    return (
+        <EntitiesContainer>
+            <ButtonContainer>
+                <ScrollButton onClick={() => handleSlide('left')}><img src="/images/icons/chevron-left.png" alt="prev" /></ScrollButton>
+                <ScrollButton onClick={() => handleSlide('right')}><img src="/images/icons/chevron-right.png" alt="next" /></ScrollButton>
+            </ButtonContainer>
+            <Entities {...restProps} style={{ transform: `translateX(${posX}px)` }} ref={width}>{children}</Entities>
+        </EntitiesContainer>
+    )
 }
 
 Card.Item = function CardItem({ item, children, ...restProps }) {

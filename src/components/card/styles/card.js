@@ -1,5 +1,52 @@
 import styled from "styled-components";
 
+export const EntitiesContainer = styled.div`
+
+`
+
+export const HiddenOverflow = styled.div`
+    overflow-x: hidden;
+`
+
+export const ButtonContainer = styled.div`
+    display: flex;
+    width: 99vw;
+    height: auto;
+    position: absolute;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+`
+
+export const ScrollButton = styled.div`
+    height: 170px;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    width: 50px;
+    transition: all 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.9);
+
+        img {
+            transform: scale(1.2);
+        }
+    }
+
+    img {
+        filter: brightness(0) invert(1);
+        width: 16px;
+        height: 16px;
+        transition: all 0.5s;
+    }
+`
+
 export const Title = styled.p`
     font-size: 24px;
     color: #e5e5e5;
@@ -159,6 +206,10 @@ export const Meta = styled.div`
 export const Entities = styled.div`
     display: flex;
     flex-direction: row;
+    flex-wrap: none;
+    width: max-content;
+    align-items: center;
+    transition: all 0.4s;
 ` 
 
 export const Item = styled.div`

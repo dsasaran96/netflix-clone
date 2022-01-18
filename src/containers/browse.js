@@ -6,6 +6,7 @@ import * as ROUTES from '../constants/routes'
 import logo from '../logo.svg'
 import { FooterContainer } from './footer'
 import Fuse from 'fuse.js' 
+import { HiddenOverflow } from "../components/card/styles/card";
 
 export function BrowseContainer({ slides }) {
     const [category, setCategory] = useState('series')
@@ -41,7 +42,7 @@ export function BrowseContainer({ slides }) {
     }, [searchTerm])
 
     return profile.displayName ? (
-        <>
+        <HiddenOverflow>
             {
             loading ? <Loading src={user.photoURL} /> : <Loading.ReleaseBody />}
             <Header src="joker1">
@@ -88,7 +89,7 @@ export function BrowseContainer({ slides }) {
                                             item.overview.length > 150 ? <Card.Text>{item.overview.slice(0, 150).concat('...')}</Card.Text> 
                                             : <Card.Text>{item.overview}</Card.Text>
                                         }
-                                    </Card.Meta>
+                                     </Card.Meta>
                                 </Card.Item>
                             ))}
                         </Card.Entities>
@@ -103,6 +104,6 @@ export function BrowseContainer({ slides }) {
             </Card.Group>
 
             <FooterContainer />
-        </>
+        </HiddenOverflow>
     ) : <SelectProfileContainer user={user} setProfile={setProfile}/>
 }
