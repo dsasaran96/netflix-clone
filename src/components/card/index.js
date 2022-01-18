@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
-import { Container, Group, Title, SubTitle, Text, Feature, FeatureTitle, FeatureText, FeatureClose, Maturity, Content, Item, Image, Meta, Entities } from './styles/card'
+import React, { createContext, useContext, useState, useRef } from "react";
+import { Container, Group, Title, SubTitle, Text, Feature, FeatureTitle, FeatureText, FeatureClose, ScrollButton, Content, Item, Image, Meta, Entities, ButtonContainer, EntitiesContainer } from './styles/card'
 
 export const FeatureContext = createContext()
 
@@ -35,7 +35,28 @@ Card.Meta = function CardMeta({ children, ...restProps }) {
 }
 
 Card.Entities = function CardEntities({ children, ...restProps }) {
-    return <Entities {...restProps}>{children}</Entities>
+    const [posX, setPosX] = useState(0)
+    const width = useRef(null)
+
+    const handleSlide = (direction) => {
+        if(direction === 'left' && posX !== 0) {
+            const newPos = posX + 306;
+            setPosX(newPos)
+        } else if (direction === 'right' && ((posX * (-1)) <= (width.current.offsetWidth - 306*6))) {
+            const newPos = posX - 306;
+            setPosX(newPos)
+        }
+    }
+
+    return (
+        <EntitiesContainer>
+            <ButtonContainer>
+                <ScrollButton onClick={() => handleSlide('left')}><img src="/images/icons/chevron-left.png" alt="prev" /></ScrollButton>
+                <ScrollButton onClick={() => handleSlide('right')}><img src="/images/icons/chevron-right.png" alt="next" /></ScrollButton>
+            </ButtonContainer>
+            <Entities {...restProps} style={{ transform: `translateX(${posX}px)` }} ref={width}>{children}</Entities>
+        </EntitiesContainer>
+    )
 }
 
 Card.Item = function CardItem({ item, children, ...restProps }) {
@@ -54,20 +75,13 @@ Card.Feature = function CardFeature ({ children, category, ...restProps }) {
     const { showFeature, itemFeature, setShowFeature } = useContext(FeatureContext)
 
     return showFeature ? (
-        <Feature src={`/images/${category}/${itemFeature.genre}/${itemFeature.slug}/large.jpg`} {...restProps}>
-            <Content>
+        <Feature src={`https://image.tmdb.org/t/p/w1280/${itemFeature.backdrop_path}`} {...restProps}>
+            <Content style={{zIndex: 10000}}>
                 <FeatureTitle>{itemFeature.title}</FeatureTitle>
-                <FeatureText>{itemFeature.description}</FeatureText>
+                <FeatureText>{itemFeature.overview}</FeatureText>
                 <FeatureClose onClick={() => setShowFeature(false)}>
                     <img src="/images/icons/close.png" alt="Close" />
                 </FeatureClose>
-
-                <Group margin="30px 0" flexDirection="row" alignItems="center">
-                    <Maturity rating={itemFeature.maturity}>{itemFeature.maturity < 12 ? 'PG' : itemFeature.maturity}</Maturity>
-                    <FeatureText fontWeight="bold">
-                        {itemFeature.genre.charAt(0).toUpperCase() + itemFeature.genre.slice(1)}
-                    </FeatureText>
-                </Group>
             {children}
             </Content>
         </Feature>
