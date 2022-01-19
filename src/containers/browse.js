@@ -37,9 +37,6 @@ export function BrowseContainer({ slides }) {
         getFeature()
     }, [requests])
 
-    console.log(feature)
-
-
     useEffect(() => {
         setSlideRows(slides[category])
     }, [slides, category])

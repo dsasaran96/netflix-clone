@@ -19,7 +19,6 @@ export default function useContent(target) {
             const thrillerMovies = await axios.get(requests.fetchThrillerMovies)
             setContent(content.concat(childrenMovies.data.results, childrenSeries.data.results, comedySeries.data.results, crimeSeries.data.results, documentarySeries.data.results, dramaMovies.data.results, feelGoodSeries.data.results, romanceMovies.data.results, suspenseMovies.data.results, thrillerMovies.data.results))
             }
-            console.log(requests.fetchFeature)
         fetchData();
     }, [requests])
 
