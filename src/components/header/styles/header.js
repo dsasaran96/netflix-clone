@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom'
 export const Background = styled.div`
     display: flex;
     flex-direction: column;
-    background: url(${({ src }) => (src ? `../images/misc/${src}.jpg` : `../images/misc/home-bg.jpg`)})
-     top left / cover no-repeat;
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%),
+                url(${({ src }) => (src ? src : `../images/misc/home-bg.jpg`)});
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top left;
 `
 
 export const Container = styled.div`
@@ -81,9 +84,9 @@ export const Feature = styled(Container)`
     align-items: normal;
     width: 50%;
 
-    /* @media(max-width: 1100px) {
+    @media(max-width: 1100px) {
         display: none;
-    } */
+    }
 `
 
 export const Text = styled.p`

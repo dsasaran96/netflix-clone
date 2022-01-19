@@ -23,6 +23,7 @@ export const Inner = styled.div`
     video {
         height: 100%;
         width: 100%;
+        z-index: 200000;
     };
 `
 

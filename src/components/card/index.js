@@ -40,10 +40,10 @@ Card.Entities = function CardEntities({ children, ...restProps }) {
 
     const handleSlide = (direction) => {
         if(direction === 'left' && posX !== 0) {
-            const newPos = posX + 306;
+            const newPos = posX + 295;
             setPosX(newPos)
-        } else if (direction === 'right' && ((posX * (-1)) <= (width.current.offsetWidth - 306*6))) {
-            const newPos = posX - 306;
+        } else if (direction === 'right' && ((posX * (-1)) <= (width.current.offsetWidth - 295*6))) {
+            const newPos = posX - 295;
             setPosX(newPos)
         }
     }

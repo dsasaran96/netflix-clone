@@ -7,6 +7,8 @@ import logo from '../logo.svg'
 import { FooterContainer } from './footer'
 import Fuse from 'fuse.js' 
 import { HiddenOverflow } from "../components/card/styles/card";
+import requests from '../utils/requests'
+import axios from '../helpers/axios'
 
 export function BrowseContainer({ slides }) {
     const [category, setCategory] = useState('series')
@@ -14,6 +16,7 @@ export function BrowseContainer({ slides }) {
     const [profile, setProfile] = useState({})
     const [loading, setLoading] = useState(true)
     const [slideRows, setSlideRows] = useState([])
+    const [feature, setFeature] = useState([])
 
     const { firebase } = useContext(FirebaseContext)
     const user = firebase.auth().currentUser || {}
@@ -23,6 +26,19 @@ export function BrowseContainer({ slides }) {
             setLoading(false)
         }, 3000)
     }, [profile.displayName])
+
+    useEffect(() => {
+        const getFeature = async () => {
+            const random = Math.floor(Math.random() * 20)
+            const movie = await axios.get(requests.fetchFeature)
+                                 .then(response => setFeature(response.data.results[random]))
+            return movie
+        }
+        getFeature()
+    }, [requests])
+
+    console.log(feature)
+
 
     useEffect(() => {
         setSlideRows(slides[category])
@@ -45,7 +61,7 @@ export function BrowseContainer({ slides }) {
         <HiddenOverflow>
             {
             loading ? <Loading src={user.photoURL} /> : <Loading.ReleaseBody />}
-            <Header src="joker1">
+            <Header bg={true} src={`https://image.tmdb.org/t/p/original/${feature.backdrop_path}`}>
                 <Header.Frame>
                     <Header.Group>
                         <Header.Logo to={ROUTES.HOME} src={logo} alt="Netflix" />
@@ -69,8 +85,8 @@ export function BrowseContainer({ slides }) {
                     </Header.Group>
                 </Header.Frame>
                 <Header.Feature>
-                    <Header.FeatureCallOut>Watch Joker Now</Header.FeatureCallOut>
-                    <Header.Text>In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by society. He then embarks on a downward spiral of revolution and bloody crime. This path brings him face-to-face with his alter-ego: the Joker.</Header.Text>
+                    <Header.FeatureCallOut>Watch {feature.name ? feature.name : feature.title} now!</Header.FeatureCallOut>
+                    <Header.Text>{feature.overview}</Header.Text>
                     <Header.PlayButton>Play</Header.PlayButton>
                 </Header.Feature>
             </Header>
@@ -82,7 +98,7 @@ export function BrowseContainer({ slides }) {
                         <Card.Entities>
                             {slideItem.data.map((item, i) => (
                                 <Card.Item key={`${item.id}-${i}`} item={item}>
-                                    <Card.Image src={`https://image.tmdb.org/t/p/w300/${item.backdrop_path}`} />
+                                    <Card.Image src={`https://image.tmdb.org/t/p/w780/${item.backdrop_path}`} />
                                     <Card.Meta>
                                         <Card.SubTitle>{item.title}</Card.SubTitle>
                                         {

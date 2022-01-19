@@ -1,4 +1,4 @@
-const API_KEY = '7cfc1357043eaf66ae6f3d94546704e4'
+const API_KEY = '###REMOVED###'
 
 //drama, thriller, children, suspense, romance - films
 
@@ -13,6 +13,8 @@ const requests = {
     fetchChildrenMovies: `/discover/movie?api_key=${API_KEY}&with_genres=16`,
     fetchSuspenseMovies: `/discover/movie?api_key=${API_KEY}&with_genres=12`,
     fetchRomanceMovies: `/discover/movie?api_key=${API_KEY}&with_genres=10749`,
+
+    fetchFeature: `/trending/all/day?api_key=${API_KEY}`
 }
 
 export default requests
