@@ -1,4 +1,4 @@
-const API_KEY = '###REMOVED###'
+const API_KEY = `###REMOVED###`
 
 //drama, thriller, children, suspense, romance - films
 
