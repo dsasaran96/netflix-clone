@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Group, Background, ButtonLink, Container, Logo, Feature, Text, FeatureCallOut, TextLink, Picture, Dropdown, Profile, Search, SearchIcon, SearchInput, PlayButton } from './styles/header'
 
 export default function Header( { bg, src, children, ...restProps } ) {
-    return bg ? <Background src={src} {...restProps}>{children}</Background> : children
+    return bg ? <Background src={src ? src : '../images/misc/home-bg.jpg'} {...restProps}>{children}</Background> : children
 }
 
 Header.Feature = function HeaderFeature({ children, ...restProps }) {
