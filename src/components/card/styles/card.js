@@ -32,6 +32,10 @@ export const ScrollButton = styled.div`
         height: 16px;
         transition: all 0.5s;
     }
+
+    &:last-of-type {
+        width: 69px;
+    }
 `
 
 export const ButtonContainer = styled.div`
