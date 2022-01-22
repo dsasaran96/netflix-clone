@@ -21,6 +21,14 @@ export function BrowseContainer({ slides }) {
     const { firebase } = useContext(FirebaseContext)
     const user = firebase.auth().currentUser || {}
 
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 5,
+        slidesToScroll: 5
+    }
+
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
@@ -97,7 +105,7 @@ export function BrowseContainer({ slides }) {
                                 <Card.Item key={`${item.id}-${i}`} item={item}>
                                     <Card.Image src={`https://image.tmdb.org/t/p/w780/${item.backdrop_path}`} />
                                     <Card.Meta>
-                                        <Card.SubTitle>{item.title}</Card.SubTitle>
+                                        <Card.SubTitle>{item.title || item.name}</Card.SubTitle>
                                         {
                                             item.overview.length > 150 ? <Card.Text>{item.overview.slice(0, 150).concat('...')}</Card.Text> 
                                             : <Card.Text>{item.overview}</Card.Text>

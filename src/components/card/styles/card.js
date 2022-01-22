@@ -10,24 +10,22 @@ export const HiddenOverflow = styled.div`
 `
 
 export const ScrollButton = styled.div`
-    height: 180px;
-    background-color: rgba(0, 0, 0, 0.8);
+    height: 170px;
+    background: ${({ direction }) => direction === 'left' ? `linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 30%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%)` : `linear-gradient(270deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)`};
     z-index: 100;
-    width: 50px;
+    width: 51px;
     transition: all 0.5s;
     display: flex;
     align-items: center;
     justify-content: center;
-
     &:hover {
         cursor: pointer;
         background-color: rgba(0, 0, 0, 0.9);
-
         img {
             transform: scale(1.2);
+            filter: invert(28%) sepia(79%) saturate(5819%) hue-rotate(350deg) brightness(102%) contrast(103%);
         }
     }
-
     img {
         filter: brightness(0) invert(1);
         width: 16px;
@@ -38,7 +36,7 @@ export const ScrollButton = styled.div`
 
 export const ButtonContainer = styled.div`
     display: flex;
-    width: 99vw;
+    width: 100vw;
     height: auto;
     position: absolute;
     align-items: center;
@@ -62,7 +60,6 @@ export const Container = styled.div`
     flex-direction: column;
     margin-bottom: 50px;
     box-sizing: border-box;
-
     > ${Title} {
         @media (max-width: 1000px) {
             margin-left: 30px;
@@ -102,7 +99,6 @@ export const FeatureText = styled.p`
     color: white;
     font-weight: ${({ fontWeight }) => (fontWeight === 'bold' ? 'bold' : 'normal')};
     margin: 0;
-
     @media (max-width: 600px) {
         line-height: 22px;
     }
@@ -128,7 +124,6 @@ export const Feature = styled.div`
     position: relative;
     height: 360px;
     background-color: black;
-
     &::before {
         content: '';
         position: absolute;
@@ -139,20 +134,16 @@ export const Feature = styled.div`
         background-image: linear-gradient(to bottom right, #000000, #00000000);
         opacity: 1;
     }
-
     @media (max-width: 1000px) {
         height: auto;
         background-size: auto;
-
         ${Title} {
             font-size: 20px;
             line-height: 20px;
             margin-bottom: 10px;
         }
-
         ${FeatureText} {
             font-size: 14px;
-
         }
     }
 `
@@ -165,7 +156,6 @@ export const FeatureClose = styled.button`
     cursor: pointer;
     background-color: transparent;
     border: 0;
-
     img {
         filter: brightness(0) invert(1);
         width: 24px;
@@ -176,7 +166,6 @@ export const Content = styled.div`
     margin: 56px;
     max-width: 500px;
     line-height: normal;
-
     @media (max-width: 1000px) {
         margin: 30px;
         max-width: none;
@@ -195,9 +184,11 @@ export const Entities = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: none;
-    width: max-content;
     align-items: center;
     transition: all 0.4s;
+    width: 99vw;
+    height: 220px;
+    overflow: hidden; 
 ` 
 
 export const Item = styled.div`
@@ -206,31 +197,26 @@ export const Item = styled.div`
     margin-right: 5px;
     position: relative;
     cursor: pointer;
-    transition: transform 0.2s;
-
+    transition: all 0.2s;
+    transform: ${({ pos }) => pos && `translateX(${pos}px)`};
     &:hover {
-        transform: scale(1.3);
+        box-shadow: 0px 0px 15px 5px #ff1e1e;
         z-index: 1000;
     }
-
     @media (min-width: 700px) {
         &:hover ${Meta}, &:hover ${Text}, &:hover ${SubTitle} {
             display: block;
             z-index: 9000;
         }
     }
-
     &:first-of-type {
         margin-left: 56px;
-
         @media (max-width: 1000px) {
             margin-left: 30px;
         }
     }
-
     &:last-of-type {
         margin-right: 56px;
-
         @media (max-width: 1000px) {
             margin-right: 30px;
         }

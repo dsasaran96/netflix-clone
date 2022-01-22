@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useRef } from "react";
 import { Container, Group, Title, SubTitle, Text, Feature, FeatureTitle, FeatureText, FeatureClose, ScrollButton, Content, Item, Image, Meta, Entities, ButtonContainer, EntitiesContainer } from './styles/card'
 
 export const FeatureContext = createContext()
+export const ScrollContext = createContext()
 
 export default function Card({ children, ...restProps }) {
     const [showFeature, setShowFeature] = useState(false)
@@ -36,36 +37,70 @@ Card.Meta = function CardMeta({ children, ...restProps }) {
 
 Card.Entities = function CardEntities({ children, ...restProps }) {
     const [posX, setPosX] = useState(0)
-    const width = useRef(null)
+    const [currPage, setCurrPage] = useState(0)
+    const lastIndex = Math.floor(children.length / 5)
 
     const handleSlide = (direction) => {
-        if(direction === 'left' && posX !== 0) {
-            const newPos = posX + 295;
-            setPosX(newPos)
-        } else if (direction === 'right' && ((posX * (-1)) <= (width.current.offsetWidth - 295*6))) {
-            const newPos = posX - 295;
-            setPosX(newPos)
+        if(direction === 'right') {
+            if(currPage < lastIndex) {
+                if(currPage === lastIndex - 1) {
+                    const newPage = currPage + 1
+                    const newPos = posX - 295 * (children.length - ((currPage + 1) * 5))
+                    setPosX(newPos)
+                    setCurrPage(newPage)
+                } else {
+                const newPos = posX - 295 * 5
+                const newPage = currPage + 1;
+                setPosX(newPos)
+                setCurrPage(newPage)
+                }
+            }
+            if(currPage >= lastIndex) {
+                setCurrPage(0)
+                setPosX(0)
+            }
+        }
+
+        if(direction === 'left') {
+            if(currPage === 0) {
+                const newPos = posX - 295 * (children.length - (currPage + 1) * 5)
+                setPosX(newPos)
+                setCurrPage(lastIndex)
+            } else {
+                const newPos = posX + 295 * 5
+                const newPage = currPage - 1
+                if(newPage === 0) {
+                    setCurrPage(0)
+                    setPosX(0)
+                } else {
+                    setCurrPage(newPage)
+                    setPosX(newPos)
+                }
+            }
         }
     }
 
     return (
-        <EntitiesContainer>
-            <ButtonContainer>
-                <ScrollButton onClick={() => handleSlide('left')}><img src="/images/icons/chevron-left.png" alt="prev" /></ScrollButton>
-                <ScrollButton onClick={() => handleSlide('right')}><img src="/images/icons/chevron-right.png" alt="next" /></ScrollButton>
-            </ButtonContainer>
-            <Entities {...restProps} style={{ transform: `translateX(${posX}px)` }} ref={width}>{children}</Entities>
-        </EntitiesContainer>
+        <ScrollContext.Provider value={{ posX }}>
+            <EntitiesContainer>
+                <ButtonContainer>
+                    <ScrollButton direction={'left'} onClick={() => handleSlide('left')}><img src="/images/icons/chevron-left.png" alt="prev" /></ScrollButton>
+                    <ScrollButton direction={'right'} onClick={() => handleSlide('right')}><img src="/images/icons/chevron-right.png" alt="next" /></ScrollButton>
+                </ButtonContainer>
+                <Entities {...restProps}>{children}</Entities>
+            </EntitiesContainer>
+        </ScrollContext.Provider>
     )
 }
 
-Card.Item = function CardItem({ item, children, ...restProps }) {
+Card.Item = function CardItem({ item, children, pos, ...restProps }) {
     const { setShowFeature, setItemFeature } = useContext(FeatureContext)
+    const { posX } = useContext(ScrollContext)
 
     return  <Item onClick={() => {
         setItemFeature(item)
         setShowFeature(true)
-    }} {...restProps}>{children}</Item> }
+    }} {...restProps} pos={posX}>{children}</Item> }
 
 Card.Image = function CardImage ({ ...restProps }) {
     return <Image {...restProps} />
@@ -77,7 +112,7 @@ Card.Feature = function CardFeature ({ children, category, ...restProps }) {
     return showFeature ? (
         <Feature src={`https://image.tmdb.org/t/p/w1280/${itemFeature.backdrop_path}`} {...restProps}>
             <Content style={{zIndex: 10000}}>
-                <FeatureTitle>{itemFeature.title}</FeatureTitle>
+                <FeatureTitle>{itemFeature.title || itemFeature.name }</FeatureTitle>
                 <FeatureText>{itemFeature.overview}</FeatureText>
                 <FeatureClose onClick={() => setShowFeature(false)}>
                     <img src="/images/icons/close.png" alt="Close" />
@@ -87,4 +122,3 @@ Card.Feature = function CardFeature ({ children, category, ...restProps }) {
         </Feature>
     ) : null
 }
-
