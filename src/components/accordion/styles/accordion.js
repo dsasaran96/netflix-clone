@@ -52,7 +52,7 @@ export const Header = styled.div`
 
 export const Body = styled.div`
     max-height: 1200px;
-    transition: max-height 0.25s cubic-bezier()(cubic-bezier(0.55, 0.055, 0.675, 0.19), 0, cubic-bezier(0.165, 0.84, 0.44, 1), 1);
+    transition: all 0.25s cubic-bezier(cubic-bezier(0.55, 0.055, 0.675, 0.19), 0, cubic-bezier(0.165, 0.84, 0.44, 1), 1);
     font-size: 26px;
     font-weight: normal;
     line-height: normal;
