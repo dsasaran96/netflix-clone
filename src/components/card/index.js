@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useRef } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { Container, Group, Title, SubTitle, Text, Feature, FeatureTitle, FeatureText, FeatureClose, ScrollButton, Content, Item, Image, Meta, Entities, ButtonContainer, EntitiesContainer } from './styles/card'
 
 export const FeatureContext = createContext()
@@ -38,21 +38,34 @@ Card.Meta = function CardMeta({ children, ...restProps }) {
 Card.Entities = function CardEntities({ children, ...restProps }) {
     const [posX, setPosX] = useState(0)
     const [currPage, setCurrPage] = useState(0)
-    const lastIndex = Math.floor(children.length / 5)
+    const [itemsDisplayed, setItemsDisplayed] = useState(5)
+    const lastIndex = Math.floor(children.length / itemsDisplayed)
+
+    const width = window.innerWidth
+
+    const isMobile = width <= 768
+
+    useEffect(() => {
+        if(isMobile) {
+            setItemsDisplayed(1)
+        } else {
+            setItemsDisplayed(5)
+        }
+    }, [window.innerWidth])
 
     const handleSlide = (direction) => {
         if(direction === 'right') {
             if(currPage < lastIndex) {
                 if(currPage === lastIndex - 1) {
                     const newPage = currPage + 1
-                    const newPos = posX - 295 * (children.length - ((currPage + 1) * 5))
+                    const newPos = posX - 295 * (children.length - ((currPage + 1) * itemsDisplayed))
                     setPosX(newPos)
                     setCurrPage(newPage)
                 } else {
-                const newPos = posX - 295 * 5
-                const newPage = currPage + 1;
-                setPosX(newPos)
-                setCurrPage(newPage)
+                    const newPos = posX - 295 * itemsDisplayed
+                    const newPage = currPage + 1;
+                    setPosX(newPos)
+                    setCurrPage(newPage)
                 }
             }
             if(currPage >= lastIndex) {
@@ -63,11 +76,11 @@ Card.Entities = function CardEntities({ children, ...restProps }) {
 
         if(direction === 'left') {
             if(currPage === 0) {
-                const newPos = posX - 295 * (children.length - (currPage + 1) * 5)
+                const newPos = posX - 295 * (children.length - (currPage + 1) * itemsDisplayed)
                 setPosX(newPos)
                 setCurrPage(lastIndex)
             } else {
-                const newPos = posX + 295 * 5
+                const newPos = posX + 295 * itemsDisplayed
                 const newPage = currPage - 1
                 if(newPage === 0) {
                     setCurrPage(0)
