@@ -1,3 +1,5 @@
+Live Preview: https://sad-einstein-b586b8.netlify.app/
+
 1. How I worked on this project:
 
 First, I built a mockup version of Netflix using a Firestore DB to populate with movies. I started building it page by page, from Home and all the way to Browse (as browse was the biggest, I left it last). Finally, I added Authentication and MovieDB API to populate the Browse page dinamically.
